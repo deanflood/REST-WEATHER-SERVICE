@@ -17,9 +17,17 @@ namespace CAPreperation.Controllers
         };
 
         [HttpGet]
+        [Route("api/Weather/weatherlist")]
         public List<Weather> weatherlist()
         {
             return list;
+        }
+
+        [HttpGet]
+        [Route("api/Weather/order")]
+        public List<Weather> order()
+        {
+            return list.OrderBy(w => w.Temperature).ToList<Weather>();
         }
 
         [HttpGet]
@@ -34,12 +42,18 @@ namespace CAPreperation.Controllers
             return list.Where(w => w.WeatherWarning == true).ToList();
         }
 
-        [HttpPost]
+        [HttpPut]
             public void update(Weather weather)
         {
             Weather toUpdate = list.First(w => w.City == weather.City);
             list[list.IndexOf(toUpdate)] = weather;
             
+        }
+
+        [HttpPost]
+        public void add(Weather weather)
+        {
+            list.Add(weather);
         }
     }
 }
